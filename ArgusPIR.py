@@ -5,7 +5,7 @@ from datetime import datetime
 from PIL import Image
 
 
-class Argus(object):
+class ArgusPIR(object):
     def __init__(self, root_dir, email_creds):
         self.alert_active = False
         self.root_dir = root_dir
@@ -18,6 +18,7 @@ class Argus(object):
         self.current_file_path = None
 
     def Start(self):
+        print 'starting'
         self.initEmail()
         self.initPirModule()
         self.init_camera()
@@ -27,8 +28,8 @@ class Argus(object):
         ## Sit in a loop checking for motion every couple seconds
         try:
             while 1:
-                time.sleep(10)
-                if self.alert_active and int(time.time())-self.last_motion>60:
+                time.sleep(15)
+                if self.alert_active and int(time.time())-self.last_motion>=30:
                     self.deactivateAlert()
         except KeyboardInterrupt:
             print 'Exiting . . .'
@@ -51,7 +52,7 @@ class Argus(object):
         time.sleep(2)
         GPIO.add_event_detect(self.PIR_PIN, GPIO.RISING, callback = self.motionDetected_callback)
 
-    def motionDetected_callback(self):
+    def motionDetected_callback(self, event):
         self.motion_detected = True
         self.last_motion = time.time()
 
@@ -62,7 +63,7 @@ class Argus(object):
     ## Create PiCamera Camera instance which Argus will use for recording any images/videos
     def init_camera(self):
         self.camera = picamera.PiCamera()
-        self.camera.resolution = (100, 75)
+        self.camera.resolution = (1280, 720)
 
     ## Get initial image to use in comparisons for motion detection
     def initImage(self):
@@ -75,6 +76,7 @@ class Argus(object):
         # "Rewind" the stream to the beginning so we can read its content
         stream.seek(0)
         image = Image.open(stream)
+        buffer = image.load()
         stream.close()
         return image
 
@@ -141,7 +143,8 @@ class Argus(object):
 
     ## Save the current image in memory to a file
     def saveImage(self, filename):
-        self.captureImage().save(filename)
+        image = self.captureImage()
+        image.save(filename)
 
     ## Get the file path based on current date and time
     def getFilePath(self):
