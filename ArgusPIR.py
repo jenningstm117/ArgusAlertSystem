@@ -1,4 +1,4 @@
-import os, time, io, picamera
+import os, time, io, picamera, subprocess
 import RPi.GPIO as GPIO
 import MailWrapper
 from datetime import datetime
@@ -25,9 +25,15 @@ class ArgusPIR(object):
         time.sleep(2)
         self.initVideoStream()
         time.sleep(5)
+        checkedin = False
         ## Sit in a loop checking for motion every couple seconds
         try:
             while 1:
+                if datetime.now().hour == 12 and not checkedin:
+                    checkedin = True
+                    self.sendAlertEmail('checkin')
+                elif datetime.now().hour == 1:
+                    checkedIn = False
                 time.sleep(15)
                 if self.alert_active and int(time.time())-self.last_motion>=30:
                     self.deactivateAlert()
@@ -42,6 +48,7 @@ class ArgusPIR(object):
 
         self.alert_active_subject = 'Argus Alert Activated'
         self.alert_deactive_subject = 'Argus Alert Deactivated'
+        self.alert_checkin_subject = 'Argus Checking In'
 
     ##Setup Pir motion detection device
     def initPirModule(self):
@@ -132,14 +139,21 @@ class ArgusPIR(object):
 
     ## Construct the alert email to be sent
     def sendAlertEmail(self, type, image_file):
-        if type == 'alertActivated':
-            self.email_manager.createMail(self.alert_active_subject, '')
-            self.email_manager.attachFile(image_file)
-            self.email_manager.sendMail()
-        elif type == 'alertDeactivated':
-            self.email_manager.createMail(self.alert_deactive_subject, '')
-            self.email_manager.attachFile(image_file)
-            self.email_manager.sendMail()
+        try:
+            if type == 'alertActivated':
+                self.email_manager.createMail(self.alert_active_subject, '')
+                self.email_manager.attachFile(image_file)
+                self.email_manager.sendMail()
+            elif type == 'alertDeactivated':
+                self.email_manager.createMail(self.alert_deactive_subject, '')
+                self.email_manager.attachFile(image_file)
+                self.email_manager.sendMail()
+            elif type == 'checkin':
+                size, available = self.getFreeSpace()
+                self.email_manager.createMail(self.checkin_subject, '{0}Gb Free of {1}Gb Total'.format(available, size))
+                self.email_manager.sendMail()
+        except:
+            print 'sending failed'
 
     ## Save the current image in memory to a file
     def saveImage(self, filename):
@@ -167,3 +181,12 @@ class ArgusPIR(object):
             return 'alertDeactivated.jpeg'
         elif fileType=='video':
             return 'video.h264'
+
+    def getFreeSpace(self):
+        df = subprocess.Popen(["df", "Main.py"], stdout=subprocess.PIPE)
+        output = df.communicate()[0]
+        device, size, used, available, percent, mountpoint = output.split("\n")[1].split()
+        size = float(size)/1000000
+        used = float(used)/1000000
+        available = float(available)/1000000
+        return size, available
