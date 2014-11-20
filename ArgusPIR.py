@@ -21,11 +21,12 @@ class ArgusPIR(object):
     def Start(self):
         print 'starting'
         self.initEmail()
-        self.initPirModule()
         self.init_camera()
         time.sleep(2)
         self.initVideoStream()
         time.sleep(5)
+        self.initPirModule()
+        time.sleep(3)
         checkedin = False
         ## Sit in a loop checking for motion every couple seconds
         try:
