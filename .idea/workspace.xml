@@ -41,7 +41,7 @@
       <file leaf-file-name="ArgusPIR.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="35" selection-start="2122" selection-end="2122" vertical-scroll-proportion="0.950783" vertical-offset="204" max-vertical-offset="3366">
+            <state line="132" column="22" selection-start="5173" selection-end="5173" vertical-scroll-proportion="0.2531792" vertical-offset="2025" max-vertical-offset="3485">
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -52,7 +52,16 @@
       <file leaf-file-name="Main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="50" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="306">
+            <state line="3" column="28" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="306">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="password.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/password.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="12" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
               <folding />
             </state>
           </provider>
@@ -90,15 +99,15 @@
       <list>
         <option value="$PROJECT_DIR$/Argus.py" />
         <option value="$PROJECT_DIR$/Main.py" />
+        <option value="$PROJECT_DIR$/password.txt" />
         <option value="$PROJECT_DIR$/ArgusPIR.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="960" />
+    <option name="width" value="960" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -150,9 +159,13 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -374,7 +387,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -382,7 +395,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12291667" sideWeight="0.670282" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12288135" sideWeight="0.670282" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -413,15 +426,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="45" selection-start="0" selection-end="7937" vertical-scroll-proportion="0.0" vertical-offset="2336" max-vertical-offset="3434">
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="50" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="306">
@@ -508,7 +512,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="50" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+        <state line="3" column="28" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/password.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="12" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
           <folding />
         </state>
       </provider>
@@ -522,7 +533,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="35" selection-start="2122" selection-end="2122" vertical-scroll-proportion="0.950783" vertical-offset="204" max-vertical-offset="3366">
+        <state line="132" column="22" selection-start="5173" selection-end="5173" vertical-scroll-proportion="0.2531792" vertical-offset="2025" max-vertical-offset="3485">
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

@@ -2,6 +2,7 @@ import os, time, io, picamera, subprocess
 import RPi.GPIO as GPIO
 import MailWrapper
 from datetime import datetime
+from dateutil import tz
 from PIL import Image
 
 
@@ -122,20 +123,21 @@ class ArgusPIR(object):
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
-        self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
-        self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.stopVideoRecording()
         self.recordVideoToFile('%s%s'%(self.current_file_path, 'temp.h264'))
+        self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
+        self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
+
 
     ## When an alert is deactivated, save the image, send it in an email, persist the final video file,
     ## and start watching for motion again
     def deactivateAlert(self):
-        self.alert_active = False
-        self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
-        self.sendAlertEmail('alertDeactivated', '%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
         self.stopVideoRecording()
         self.persistVideo('%s%s'%(self.current_file_path, self.getFilename('video')), '%stemp.h264'%self.current_file_path)
         self.initVideoStream()
+        self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
+        self.sendAlertEmail('alertDeactivated', '%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
+        self.alert_active = False
 
     ## Construct the alert email to be sent
     def sendAlertEmail(self, type, image_file):
@@ -162,7 +164,12 @@ class ArgusPIR(object):
 
     ## Get the file path based on current date and time
     def getFilePath(self):
-        now = datetime.now()
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz('America/New_York')
+        utc = datetime.utcnow()
+        utc = utc.replace(tzinfo=from_zone)
+
+        now = utc.astimezone(to_zone)
         year = now.year
         month = now.month
         day = now.day
