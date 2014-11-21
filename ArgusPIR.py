@@ -31,10 +31,11 @@ class ArgusPIR(object):
         ## Sit in a loop checking for motion every couple seconds
         try:
             while 1:
-                if datetime.now().hour == 12 and not checkedin:
+                now = self.getLocalDatetime()
+                if now.hour == 12 and not checkedin:
                     checkedin = True
-                    self.sendAlertEmail('checkin')
-                elif datetime.now().hour == 1:
+                    self.sendAlertEmail('checkin', None)
+                elif now.hour == 13:
                     checkedIn = False
                 time.sleep(15)
                 if self.alert_active and int(time.time())-self.last_motion>=30:
@@ -165,12 +166,7 @@ class ArgusPIR(object):
 
     ## Get the file path based on current date and time
     def getFilePath(self):
-        from_zone = tz.gettz('UTC')
-        to_zone = tz.gettz('America/New_York')
-        utc = datetime.utcnow()
-        utc = utc.replace(tzinfo=from_zone)
-
-        now = utc.astimezone(to_zone)
+        now = self.getLocalDatetime()
         year = now.year
         month = now.month
         day = now.day
@@ -198,3 +194,11 @@ class ArgusPIR(object):
         used = float(used)/1000000
         available = float(available)/1000000
         return size, available
+
+    def getLocalDatetime(self):
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz('America/New_York')
+        utc = datetime.utcnow()
+        utc = utc.replace(tzinfo=from_zone)
+        now = utc.astimezone(to_zone)
+        return now
