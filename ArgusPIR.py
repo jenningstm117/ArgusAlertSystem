@@ -154,10 +154,11 @@ class ArgusPIR(object):
                 self.email_manager.sendMail()
             elif type == 'checkin':
                 size, available = self.getFreeSpace()
-                self.email_manager.createMail(self.checkin_subject, '{0}Gb Free of {1}Gb Total'.format(available, size))
+                self.email_manager.createMail(self.alert_checkin_subject, '{0}Gb Free of {1}Gb Total'.format(available, size))
                 self.email_manager.sendMail()
-        except:
+        except Exception as e:
             print 'sending failed'
+            print e
 
     ## Save the current image in memory to a file
     def saveImage(self, filename):
