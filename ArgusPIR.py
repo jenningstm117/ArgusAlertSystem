@@ -188,7 +188,7 @@ class ArgusPIR(object):
             return 'video.h264'
 
     def getFreeSpace(self):
-        df = subprocess.Popen(["df", "Main.py"], stdout=subprocess.PIPE)
+        df = subprocess.Popen(["df", "/home/pi/ArgusAlertSystem/Main.py"], stdout=subprocess.PIPE)
         output = df.communicate()[0]
         device, size, used, available, percent, mountpoint = output.split("\n")[1].split()
         size = float(size)/1000000

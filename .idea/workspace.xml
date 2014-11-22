@@ -32,7 +32,7 @@
       <file leaf-file-name="Argus.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Argus.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="25" selection-start="0" selection-end="7344" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="2941">
+            <state line="10" column="25" selection-start="0" selection-end="7344" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="3060">
               <folding />
             </state>
           </provider>
@@ -41,8 +41,10 @@
       <file leaf-file-name="ArgusPIR.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="18" selection-start="84" selection-end="84" vertical-scroll-proportion="0.039306358" vertical-offset="0" max-vertical-offset="3553">
-              <folding />
+            <state line="190" column="64" selection-start="7623" selection-end="7623" vertical-scroll-proportion="0.6069364" vertical-offset="2705" max-vertical-offset="3570">
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,7 +52,7 @@
       <file leaf-file-name="Main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="4" selection-start="172" selection-end="230" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+            <state line="7" column="4" selection-start="172" selection-end="230" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="306">
               <folding />
             </state>
           </provider>
@@ -159,11 +161,11 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -274,6 +276,9 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -295,9 +300,6 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -389,7 +391,15 @@
       <created>1416455228283</created>
       <updated>1416455228283</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added the timezone stuff to the check-in check and fixed param issue">
+      <created>1416535611626</created>
+      <updated>1416535611626</updated>
+    </task>
+    <task id="LOCAL-00006" summary="BLARG . . .">
+      <created>1416536145474</created>
+      <updated>1416536145474</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -428,7 +438,9 @@
     <MESSAGE value="Added functionality to check-in everyday at noon and report free space" />
     <MESSAGE value="Fixed small bug with deactivating alerts, and added support for using local timezones" />
     <MESSAGE value="set camera to initialize before PIR module to prevent alerts from activating before recording has begun" />
-    <option name="LAST_COMMIT_MESSAGE" value="set camera to initialize before PIR module to prevent alerts from activating before recording has begun" />
+    <MESSAGE value="Added the timezone stuff to the check-in check and fixed param issue" />
+    <MESSAGE value="BLARG . . ." />
+    <option name="LAST_COMMIT_MESSAGE" value="BLARG . . ." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -458,7 +470,9 @@
     <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="75" selection-start="1656" selection-end="2633" vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="2907">
-          <folding />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -539,8 +553,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ArgusPIR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="18" selection-start="84" selection-end="84" vertical-scroll-proportion="0.039306358" vertical-offset="0" max-vertical-offset="3553">
-          <folding />
+        <state line="190" column="64" selection-start="7623" selection-end="7623" vertical-scroll-proportion="0.6069364" vertical-offset="2705" max-vertical-offset="3570">
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
