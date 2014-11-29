@@ -103,21 +103,36 @@ class ArgusPIR(object):
     def stopVideoRecording(self):
         self.camera.stop_recording()
 
-    ## take the 5 second video stream and combine it with a video file, into one new file
-    def persistVideo(self, newFilename, tempFilename):
-        for frame in self.video_stream.frames:
-            if frame.header:
-                self.video_stream.seek(frame.position)
-                break
-        with open(tempFilename, 'rb') as tempFile, open(newFilename, 'wb') as newFile:
-            while True:
-                data = self.video_stream.read1()
-                if not data:
+    def copyStreamToFile(self):
+        # Write the entire content of the circular buffer to disk. No need to
+        # lock the stream here as we're definitely not writing to it
+        # simultaneously
+        with io.open(self.current_file_path+'after.h264', 'wb') as output:
+            for frame in self.video_stream.frames:
+                if frame.frame_type == picamera.PiVideoFrameType.sps_header:
+                    self.video_stream.seek(frame.position)
                     break
-                newFile.write(data)
-            for chunk in iter(lambda: tempFile.read(1024), b""):
+            while True:
+                buf = self.video_stream.read1()
+                if not buf:
+                    break
+                output.write(buf)
+        # Wipe the circular stream once we're done
+        self.video_stream.seek(0)
+        self.video_stream.truncate()
+
+    ## take the 5 second video stream and combine it with a video file, into one new file
+    def persistVideo(self):
+        before = self.current_file_path+'before.h264'
+        after = self.current_file_path+'after.h264'
+        final = self.current_file_path+'video.h264'
+        with open(before, 'rb') as beforeFile, open(after, 'rb') as afterFile, open(final, 'wb') as newFile:
+            for chunk in iter(lambda: beforeFile.read(1024), b""):
                 newFile.write(chunk)
-        os.remove(tempFilename)
+            for chunk in iter(lambda: afterFile.read(1024), b""):
+                newFile.write(chunk)
+        os.remove(before)
+        os.remove(after)
 
     ## When an alert is activated, get the file path based on current date and time, save the image
     ## that captured the motion, send the image in an email, stop recording to the circular stream, and
@@ -125,8 +140,8 @@ class ArgusPIR(object):
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
-        self.stopVideoRecording()
-        self.recordVideoToFile('%s%s'%(self.current_file_path, 'temp.h264'))
+        self.camera.split_recording(self.current_file_path+'after.h264')
+        self.copyStreamToFile()
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
 
@@ -134,9 +149,8 @@ class ArgusPIR(object):
     ## When an alert is deactivated, save the image, send it in an email, persist the final video file,
     ## and start watching for motion again
     def deactivateAlert(self):
-        self.stopVideoRecording()
-        self.persistVideo('%s%s'%(self.current_file_path, self.getFilename('video')), '%stemp.h264'%self.current_file_path)
-        self.initVideoStream()
+        self.camera.split_recording(self.video_stream)
+        self.persistVideo()
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
         self.sendAlertEmail('alertDeactivated', '%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
         self.alert_active = False
