@@ -63,6 +63,7 @@ class ArgusPIR(object):
         GPIO.add_event_detect(self.PIR_PIN, GPIO.RISING, callback = self.motionDetected_callback)
 
     def motionDetected_callback(self, event):
+        print 'motion_detected'
         self.motion_detected = True
         self.last_motion = time.time()
 
@@ -107,7 +108,7 @@ class ArgusPIR(object):
         # Write the entire content of the circular buffer to disk. No need to
         # lock the stream here as we're definitely not writing to it
         # simultaneously
-        with io.open(self.current_file_path+'after.h264', 'wb') as output:
+        with io.open(self.current_file_path+'before.h264', 'wb') as output:
             for frame in self.video_stream.frames:
                 if frame.frame_type == picamera.PiVideoFrameType.sps_header:
                     self.video_stream.seek(frame.position)
