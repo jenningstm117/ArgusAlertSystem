@@ -141,19 +141,19 @@ class ArgusPIR(object):
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
-        self.camera.split_recording(self.current_file_path+'after.h264')
-        self.copyStreamToFile()
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
+        self.camera.split_recording(self.current_file_path+'after.h264')
+        self.copyStreamToFile()
 
 
     ## When an alert is deactivated, save the image, send it in an email, persist the final video file,
     ## and start watching for motion again
     def deactivateAlert(self):
         self.camera.split_recording(self.video_stream)
-        self.persistVideo()
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
         self.sendAlertEmail('alertDeactivated', '%s%s'%(self.current_file_path, self.getFilename('alertDeactivated')))
+        self.persistVideo()
         self.alert_active = False
 
     ## Construct the alert email to be sent
