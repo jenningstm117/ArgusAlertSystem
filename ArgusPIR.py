@@ -36,7 +36,7 @@ class ArgusPIR(object):
                     checkedin = True
                     self.sendAlertEmail('checkin', None)
                 elif now.hour == 13:
-                    checkedIn = False
+                    checkedin = False
                 time.sleep(15)
                 if self.alert_active and int(time.time())-self.last_motion>=30:
                     self.deactivateAlert()
