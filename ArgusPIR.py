@@ -1,4 +1,4 @@
-import os, time, io, picamera, subprocess
+import os, time, io, picamera, subprocess, alsaaudio, thread
 import RPi.GPIO as GPIO
 import MailWrapper
 from datetime import datetime
@@ -135,15 +135,31 @@ class ArgusPIR(object):
         os.remove(before)
         os.remove(after)
 
+    def startAudioRecord(self, filename):
+        card = 'sysdefault:CARD=Device'
+        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK, card)
+        inp.setchannels(1)
+        inp.setrate(44100)
+        inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+        inp.setperiodsize(160)
+        with open(filename, 'wb') as audio_file:
+            while self.alert_active:
+                l, data = inp.read()
+                if l:
+                    audio_file.write(data)
+                    time.sleep(.001)
+
     ## When an alert is activated, get the file path based on current date and time, save the image
     ## that captured the motion, send the image in an email, stop recording to the circular stream, and
     ## start recording to a file
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
+        audio_filename = self.current_file_path.replace('.jpeg', '.wav')
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
-        self.camera.split_recording(self.current_file_path+'after.h264')
+        self.camera.split_recording(self.current_file_path+'after.h26411')
+        thread.start_new_thread(self.startAudioRecord, (audio_filename))
         self.copyStreamToFile()
 
 
