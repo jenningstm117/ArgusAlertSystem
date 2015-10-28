@@ -172,10 +172,10 @@ class ArgusPIR(object):
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
-        audio_filename = self.current_file_path + '.wav'
+        audio_filename = self.current_file_path + 'audio.wav'
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
-        self.camera.split_recording(self.current_file_path+'after.h26411')
+        self.camera.split_recording(self.current_file_path+'after.h264')
         thread.start_new_thread(self.startAudioRecord, (audio_filename,))
         self.copyStreamToFile()
 
