@@ -1,4 +1,5 @@
-import os, time, io, picamera, subprocess, alsaaudio, thread
+import os, time, io, picamera, subprocess, alsaaudio, thread, wave
+import numpy
 import RPi.GPIO as GPIO
 import MailWrapper
 from datetime import datetime
@@ -136,18 +137,34 @@ class ArgusPIR(object):
         os.remove(after)
 
     def startAudioRecord(self, filename):
-        card = 'sysdefault:CARD=Device'
-        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK, card)
+        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
         inp.setchannels(1)
         inp.setrate(44100)
         inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
-        inp.setperiodsize(160)
-        with open(filename, 'wb') as audio_file:
-            while self.alert_active:
-                l, data = inp.read()
-                if l:
-                    audio_file.write(data)
-                    time.sleep(.001)
+        inp.setperiodsize(1024)
+
+        w = wave.open(filename, 'w')
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(44100)
+
+        while True:
+            l, data = inp.read()
+            a = numpy.fromstring(data, dtype='int16')
+            print numpy.abs(a).mean()
+            w.writeframes(data)
+        # card = 'sysdefault:CARD=Device'
+        # inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK, card)
+        # inp.setchannels(1)
+        # inp.setrate(44100)
+        # inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+        # inp.setperiodsize(160)
+        # with open(filename, 'wb') as audio_file:
+        #     while self.alert_active:
+        #         l, data = inp.read()
+        #         if l:
+        #             audio_file.write(data)
+        #             time.sleep(.001)
 
     ## When an alert is activated, get the file path based on current date and time, save the image
     ## that captured the motion, send the image in an email, stop recording to the circular stream, and
@@ -155,11 +172,11 @@ class ArgusPIR(object):
     def activateAlert(self):
         self.alert_active = True
         self.current_file_path = self.getFilePath()
-        audio_filename = self.current_file_path.replace('.jpeg', '.wav')
+        audio_filename = self.current_file_path + '.wav'
         self.saveImage('%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.sendAlertEmail('alertActivated', '%s%s'%(self.current_file_path, self.getFilename('alertActivated')))
         self.camera.split_recording(self.current_file_path+'after.h26411')
-        thread.start_new_thread(self.startAudioRecord, (audio_filename))
+        thread.start_new_thread(self.startAudioRecord, (audio_filename,))
         self.copyStreamToFile()
 
 
