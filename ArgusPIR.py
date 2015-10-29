@@ -135,14 +135,6 @@ class ArgusPIR(object):
                 newFile.write(chunk)
         os.remove(before)
         os.remove(after)
-        thread.start_new_thread(self.combineVideo, ())
-
-
-    def combineVideo(self):
-        cmd = 'ffmpeg -y -i {0}  -r 30 -i {1}  -filter:a aresample=async=1 -c:a flac -c:v copy final_video.mkv'.format(self.current_file_path+'audio.wav', self.current_file_path+'video.h264')
-        subprocess.call(cmd, shell=True)
-        print('Muxing Done')
-
 
     def startAudioRecord(self, filename):
         inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
