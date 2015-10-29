@@ -135,36 +135,31 @@ class ArgusPIR(object):
                 newFile.write(chunk)
         os.remove(before)
         os.remove(after)
+        thread.start_new_thread(self.combineVideo, ())
+
+
+    def combineVideo(self):
+        cmd = 'ffmpeg -y -i {0}  -r 30 -i {1}  -filter:a aresample=async=1 -c:a flac -c:v copy final_video.mkv'.format(self.current_file_path+'audio.wav', self.current_file_path+'video.h264')
+        subprocess.call(cmd, shell=True)
+        print('Muxing Done')
+
 
     def startAudioRecord(self, filename):
         inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
         inp.setchannels(1)
-        inp.setrate(44100)
+        inp.setrate(48000)
         inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
         inp.setperiodsize(1024)
 
         w = wave.open(filename, 'w')
         w.setnchannels(1)
         w.setsampwidth(2)
-        w.setframerate(44100)
+        w.setframerate(48000)
 
         while True:
             l, data = inp.read()
             a = numpy.fromstring(data, dtype='int16')
-            print numpy.abs(a).mean()
             w.writeframes(data)
-        # card = 'sysdefault:CARD=Device'
-        # inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NONBLOCK, card)
-        # inp.setchannels(1)
-        # inp.setrate(44100)
-        # inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
-        # inp.setperiodsize(160)
-        # with open(filename, 'wb') as audio_file:
-        #     while self.alert_active:
-        #         l, data = inp.read()
-        #         if l:
-        #             audio_file.write(data)
-        #             time.sleep(.001)
 
     ## When an alert is activated, get the file path based on current date and time, save the image
     ## that captured the motion, send the image in an email, stop recording to the circular stream, and
